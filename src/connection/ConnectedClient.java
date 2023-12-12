@@ -45,8 +45,8 @@ public class ConnectedClient implements Runnable{
         String lineOne = m.split("\n")[0];
         String method = lineOne.split(" ")[0].trim();
         if(method.length() != 0){
+            String route = lineOne.split(" ")[1];
             if(method.equalsIgnoreCase("GET")){
-                String route = lineOne.split(" ")[1];
                 if(route.equalsIgnoreCase("/")){
                     route = "home";
                 }
@@ -59,7 +59,6 @@ public class ConnectedClient implements Runnable{
                     findPage = false;
                 }
                 if(findPage){
-
                     try{
                         out.writeBytes("HTTP/1.1 200 OK\r\n");
                         out.writeBytes("Content-Type: text/html\r\n");
@@ -96,15 +95,14 @@ public class ConnectedClient implements Runnable{
                     throw new RuntimeException(e);
                 }
             }
-        }else{
-            try {
-                out.flush();
-                out.close();
-                in.close();
-                socket.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        }
+        try {
+            out.flush();
+            out.close();
+            in.close();
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
